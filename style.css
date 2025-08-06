@@ -47,5 +47,22 @@ h1 {
   color: #999;
 }
 
+.nombre-ramo {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.codigo-ramo {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 2px;
+}
+
 .ramo {
-  background-color:
+  background-color: #f3e5f5;
+  padding: 14px 10px; /* ↑ más espacio vertical */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  border: 2px solid transparent;
+}
