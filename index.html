@@ -37,16 +37,25 @@
     overflow-x: auto;
   }
   
- .semestre {
+.semestre {
   display: flex;
   flex-direction: column;
   gap: 15px;
-  min-width: 180px;
+  min-width: 150px; 
   background-color: #B57EDC;
   border-radius: 12px;
   padding: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   flex-shrink: 0;
+}
+
+.semestre h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #FFFFFF; 
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700; 
+  font-size: 1.2em;
 }
 
 .ramo {
@@ -59,16 +68,18 @@
   transition: background-color 0.3s ease, color 0.3s ease;
   font-weight: 600;
   color: #7F4CA5;
+  
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 
 .ramo:hover {
   background-color: #c7a9e9;
 }
 
-.semestre h3 {
-  text-align: center;
-  margin-bottom: 10px;
-  color: #4B1C71; 
-}
 
   .codigo {
     font-size: 0.85em;
