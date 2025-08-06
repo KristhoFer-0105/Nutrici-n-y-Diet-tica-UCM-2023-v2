@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const malla = document.getElementById("malla");
-  const btnReset = document.getElementById("btnReset");
 
   const semestres = [
     { numero: 1, ramos: [
@@ -79,13 +78,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ]}
   ];
 
-  const ramosMap = new Map();
+   const ramosMap = new Map();
 
   semestres.forEach(sem => {
     const col = document.createElement("div");
     col.className = "semestre";
     col.innerHTML = `<h3>Semestre ${sem.numero}</h3>`;
-    
+
     sem.ramos.forEach(ramo => {
       const div = document.createElement("div");
       div.className = "ramo";
@@ -95,65 +94,22 @@ document.addEventListener("DOMContentLoaded", () => {
       ramosMap.set(ramo.codigo, div);
       col.appendChild(div);
 
-      div.addEventListener("dblclick", () => {
-        tacharRamoYDependientes(ramo.codigo);
+      div.addEventListener("click", () => {
+        toggleEstado(div);
       });
     });
 
     malla.appendChild(col);
   });
 
-  function tacharRamoYDependientes(codigoBase) {
-    const visitados = new Set();
-
-    function tachar(cod) {
-      const limpio = cod.trim().toUpperCase();
-      if (visitados.has(limpio)) return;
-      visitados.add(limpio);
-
-      const div = ramosMap.get(limpio);
-      if (!div) return;
-
+  function toggleEstado(div) {
+    if (!div.classList.contains("resaltado") && !div.classList.contains("tachado")) {
+      div.classList.add("resaltado");
+    } else if (div.classList.contains("resaltado")) {
+      div.classList.remove("resaltado");
       div.classList.add("tachado");
-
-      for (const [otroCod, otroDiv] of ramosMap.entries()) {
-        const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
-        if (reqs.includes(limpio)) {
-          tachar(otroCod);
-        }
-      }
-    }
-
-    function destachar(cod) {
-      const limpio = cod.trim().toUpperCase();
-      if (visitados.has(limpio)) return;
-      visitados.add(limpio);
-
-      const div = ramosMap.get(limpio);
-      if (!div) return;
-
+    } else if (div.classList.contains("tachado")) {
       div.classList.remove("tachado");
-
-      for (const [otroCod, otroDiv] of ramosMap.entries()) {
-        const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
-
-        // Verifica si todos los requisitos están destachados
-        const todosReqsDestachados = reqs.every(req => {
-          const reqDiv = ramosMap.get(req);
-          return reqDiv && !reqDiv.classList.contains("tachado");
-        });
-
-        if (reqs.includes(limpio) && todosReqsDestachados) {
-          destachar(otroCod);
-        }
-      }
-    }
-
-    const divBase = ramosMap.get(codigoBase);
-    if (divBase.classList.contains("tachado")) {
-      destachar(codigoBase);
-    } else {
-      tachar(codigoBase);
     }
   }
 
@@ -165,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnReset.addEventListener("click", () => {
     for (const div of ramosMap.values()) {
-      div.classList.remove("tachado");
+      div.classList.remove("resaltado", "tachado");
     }
   });
 });
