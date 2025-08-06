@@ -1,7 +1,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
 
   body {
-    background-color: #4B1C71; /* ✅ Fondo principal */
+    background-color: #4B1C71;
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 50px 20px 20px 20px;
@@ -29,30 +29,33 @@
   }
 
   #malla {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-  }
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px;
+}
 
-  .semestre {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    min-width: 180px;
-    background-color: #B57EDC; /* ✅ Fondo de isla del semestre */
-    border-radius: 12px;
-    padding: 10px;
-  }
+ .semestre {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 180px;
+  background-color: #B57EDC;
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
 
   .semestre h3 {
     text-align: center;
     margin-bottom: 10px;
-    color: #4B1C71; /* ✅ Color del título de semestre */
+    color: #4B1C71;
     font-weight: 700;
   }
 
   .ramo {
-    background-color: #DBB6EE; /* ✅ Fondo del ramo */
+    background-color: #DBB6EE;
     padding: 12px 14px;
     border-radius: 12px;
     box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
@@ -60,7 +63,7 @@
     user-select: none;
     transition: background-color 0.3s ease, color 0.3s ease;
     font-weight: 600;
-    color: #7F4CA5; /* ✅ Texto del ramo */
+    color: #7F4CA5;
   }
 
   .ramo:hover {
