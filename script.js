@@ -102,24 +102,24 @@ document.addEventListener("DOMContentLoaded", () => {
     malla.appendChild(col);
   });
 
-  function tacharRamoYDependientes(codigo) {
-    const visitados = new Set();
+  function tacharRamoYDependientes(codigoBase) {
+  const visitados = new Set();
 
-    function tachar(cod) {
-      if (visitados.has(cod)) return;
-      visitados.add(cod);
+  function tachar(cod) {
+    const limpio = cod.trim().toUpperCase();
+    if (visitados.has(limpio)) return;
+    visitados.add(limpio);
 
-      const div = ramosMap.get(cod);
-      if (div) div.classList.add("tachado");
+    const div = ramosMap.get(limpio);
+    if (div) div.classList.add("tachado");
 
-      for (const [otroCod, otroDiv] of ramosMap.entries()) {
-        const reqs = JSON.parse(otroDiv.dataset.requisitos);
-        if (reqs.includes(cod)) {
-          tachar(otroCod);
-        }
+    for (const [otroCod, otroDiv] of ramosMap.entries()) {
+      const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
+      if (reqs.includes(limpio)) {
+        tachar(otroCod);
       }
     }
-
-    tachar(codigo);
   }
-});
+
+  tachar(codigoBase);
+}
