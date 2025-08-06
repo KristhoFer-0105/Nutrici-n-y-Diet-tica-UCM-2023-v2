@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
     sem.ramos.forEach(ramo => {
       const div = document.createElement("div");
       div.className = "ramo";
-      div.textContent = `${ramo.nombre}`;
+      div.innerHTML = `<strong>${ramo.nombre}</strong><br><span class="codigo">${ramo.codigo}</span>`;
       div.dataset.codigo = ramo.codigo;
       div.dataset.requisitos = JSON.stringify(ramo.requisitos);
       ramosMap.set(ramo.codigo, div);
