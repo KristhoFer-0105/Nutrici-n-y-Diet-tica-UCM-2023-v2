@@ -264,9 +264,9 @@ document.addEventListener("DOMContentLoaded", () => {
       div.classList.remove("tachado");
       estados.set(codigo, 1);
     } else if (estadoActual === 1) {
-      // Poner tachado + tachar todos los requisitos (padres)
+      // Poner tachado + tachar todos los ramos que dependen de este (hijos)
       div.classList.remove("resaltado");
-      tacharConRequisitos(codigo);
+      tacharConDependientes(codigo);
       estados.set(codigo, 2);
     } else {
       // Volver a normal
@@ -275,8 +275,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Función para tachar ramo y todos sus requisitos (padres) recursivamente
-  function tacharConRequisitos(codigo) {
+  // Función para tachar ramo y todos los que dependen de él (hijos) recursivamente
+  function tacharConDependientes(codigo) {
     const visitados = new Set();
 
     function tacharRec(cod) {
@@ -290,11 +290,14 @@ document.addEventListener("DOMContentLoaded", () => {
       div.classList.remove("resaltado");
       estados.set(cod, 2);
 
-      // Tachamos todos sus requisitos (padres)
-      const reqs = JSON.parse(div.dataset.requisitos);
-      reqs.forEach(ramoReq => {
-        tacharRec(ramoReq);
-      });
+      // Buscamos ramos que dependen de este cod (hijos)
+      for (const [otroCod, otroDiv] of ramosMap.entries()) {
+        const reqs = JSON.parse(otroDiv.dataset.requisitos);
+
+        if (reqs.includes(cod)) {
+          tacharRec(otroCod);
+        }
+      }
     }
 
     tacharRec(codigo);
@@ -315,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
       div.classList.remove("resaltado");
       estados.set(cod, 0);
 
-      // Buscamos los ramos que dependen de este (hijos)
+      // Buscamos ramos que dependen de este cod (hijos)
       for (const [otroCod, otroDiv] of ramosMap.entries()) {
         const reqs = JSON.parse(otroDiv.dataset.requisitos);
 
