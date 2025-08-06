@@ -1,68 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
 body {
   font-family: 'Montserrat', sans-serif;
-  background-color: #e6e0f8;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  background-color: #f9f9f9;
 }
 
 h1 {
   text-align: center;
-  color: #4a0072;
+  margin: 20px 0;
 }
 
-.malla {
+#malla {
   display: flex;
-  gap: 20px;
+  flex-wrap: nowrap;
   overflow-x: auto;
   padding: 20px;
+  gap: 20px;
+  justify-content: center;
 }
 
 .semestre {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #d1c4e9;
-  padding: 15px;
+  min-width: 180px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
   border-radius: 12px;
-  min-width: 250px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+
+.semestre h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+  color: #333;
 }
 
 .ramo {
-  background-color: #f3e5f5;
-  padding: 10px;
-  border-radius: 10px;
+  background-color: #eef2f7;
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  border: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
 }
 
 .ramo:hover {
-  transform: scale(1.05);
-  border-color: #7e57c2;
+  background-color: #d9e6f2;
 }
 
 .ramo.tachado {
   text-decoration: line-through;
-  background-color: #dcdcdc;
-  color: #999;
+  opacity: 0.4;
 }
 
-.nombre-ramo {
-  font-size: 1rem;
-  font-weight: bold;
+.codigo {
+  font-size: 11px;
+  color: #888;
+  display: block;
+  margin-top: 4px;
 }
 
-.codigo-ramo {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 2px;
-}
-
-.ramo {
-  background-color: #f3e5f5;
-  padding: 14px 10px; /* ↑ más espacio vertical */
-  border-radius: 10px;
+/* Botón Reset fijo arriba a la derecha */
+#btnReset {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  padding: 8px 16px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.2s ease;
-  border: 2px solid transparent;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+#btnReset:hover {
+  background-color: #c9302c;
 }
