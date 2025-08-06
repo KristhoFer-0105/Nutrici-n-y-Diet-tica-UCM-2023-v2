@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const malla = document.getElementById("malla");
+  const btnReset = document.getElementById("btnReset");
 
   const semestres = [
     { numero: 1, ramos: [
@@ -103,23 +104,68 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function tacharRamoYDependientes(codigoBase) {
-  const visitados = new Set();
+    const visitados = new Set();
 
-  function tachar(cod) {
-    const limpio = cod.trim().toUpperCase();
-    if (visitados.has(limpio)) return;
-    visitados.add(limpio);
+    function tachar(cod) {
+      const limpio = cod.trim().toUpperCase();
+      if (visitados.has(limpio)) return;
+      visitados.add(limpio);
 
-    const div = ramosMap.get(limpio);
-    if (div) div.classList.add("tachado");
+      const div = ramosMap.get(limpio);
+      if (!div) return;
 
-    for (const [otroCod, otroDiv] of ramosMap.entries()) {
-      const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
-      if (reqs.includes(limpio)) {
-        tachar(otroCod);
+      div.classList.add("tachado");
+
+      for (const [otroCod, otroDiv] of ramosMap.entries()) {
+        const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
+        if (reqs.includes(limpio)) {
+          tachar(otroCod);
+        }
       }
+    }
+
+    function destachar(cod) {
+      const limpio = cod.trim().toUpperCase();
+      if (visitados.has(limpio)) return;
+      visitados.add(limpio);
+
+      const div = ramosMap.get(limpio);
+      if (!div) return;
+
+      div.classList.remove("tachado");
+
+      for (const [otroCod, otroDiv] of ramosMap.entries()) {
+        const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
+
+        // Verifica si todos los requisitos están destachados
+        const todosReqsDestachados = reqs.every(req => {
+          const reqDiv = ramosMap.get(req);
+          return reqDiv && !reqDiv.classList.contains("tachado");
+        });
+
+        if (reqs.includes(limpio) && todosReqsDestachados) {
+          destachar(otroCod);
+        }
+      }
+    }
+
+    const divBase = ramosMap.get(codigoBase);
+    if (divBase.classList.contains("tachado")) {
+      destachar(codigoBase);
+    } else {
+      tachar(codigoBase);
     }
   }
 
-  tachar(codigoBase);
-}
+  // Botón Reset
+  const btnReset = document.createElement("button");
+  btnReset.id = "btnReset";
+  btnReset.textContent = "Resetear Malla";
+  document.body.appendChild(btnReset);
+
+  btnReset.addEventListener("click", () => {
+    for (const div of ramosMap.values()) {
+      div.classList.remove("tachado");
+    }
+  });
+});
