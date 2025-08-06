@@ -1,15 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
 
 body {
   font-family: 'Montserrat', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  background-color: #4B1C71; /* Fondo principal */
+  color: #7F4CA5; /* Color del texto por defecto */
 }
 
 h1 {
   text-align: center;
   margin: 20px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700; /* Bold */
+  color: #ffffff;
 }
 
 #malla {
@@ -23,7 +27,7 @@ h1 {
 
 .semestre {
   min-width: 180px;
-  background-color: #ffffff;
+  background-color: #B57EDC; /* Isla de semestre */
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 10px;
@@ -35,21 +39,22 @@ h1 {
   text-align: center;
   margin-bottom: 10px;
   font-size: 16px;
-  color: #333;
+  color: #4B1C71; /* Título del semestre */
 }
 
 .ramo {
-  background-color: #eef2f7;
+  background-color: #DBB6EE; /* Isla del ramo */
   margin: 6px 0;
   padding: 8px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   text-align: center;
+  color: #7F4CA5; /* Texto del ramo */
 }
 
 .ramo:hover {
-  background-color: #d9e6f2;
+  background-color: #cfa4e0;
 }
 
 .ramo.tachado {
@@ -59,7 +64,7 @@ h1 {
 
 .codigo {
   font-size: 11px;
-  color: #888;
+  color: #4B1C71;
   display: block;
   margin-top: 4px;
 }
@@ -78,6 +83,7 @@ h1 {
   cursor: pointer;
   font-weight: bold;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-family: 'Montserrat', sans-serif;
 }
 
 #btnReset:hover {
