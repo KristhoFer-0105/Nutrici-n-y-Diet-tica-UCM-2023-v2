@@ -1,16 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Malla Nutrición Interactiva</title>
-  <link href="style.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Malla Curricular Interactiva</title>
+<style>
+  body {
+    background-color: #d6b8f0; /* morado claro */
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 50px 20px 20px 20px;
+  }
+  #btnReset {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 8px 14px;
+    background-color: #7b47aa; /* morado oscuro */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+  }
+  #btnReset:hover {
+    background-color: #6a3b94;
+  }
+
+  #malla {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+  }
+  .semestre {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    min-width: 180px;
+  }
+  .semestre h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #4b2a7f;
+  }
+  .ramo {
+    background-color: #eadcff;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 600;
+  }
+  .ramo:hover {
+    background-color: #c7a9e9;
+  }
+  .codigo {
+    font-size: 0.85em;
+    color: #8e7ab7;
+    display: block;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+  .ramo.tachado {
+    text-decoration: line-through;
+    color: #aaa;
+    background-color: #b0a3c8;
+  }
+</style>
 </head>
 <body>
-  <h1>Malla Nutrición y Dietética</h1>
-  <div class="malla" id="malla"></div>
 
-  <script src="script.js"></script>
+<button id="btnReset">Resetear Malla</button>
+<div id="malla"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const malla = document.getElementById("malla");
+  const btnReset = document.getElementById("btnReset");
+
+  const semestres = [
+    { numero: 1, ramos: [
+      { nombre: "Anatomía e Histología", codigo: "NUT-111", requisitos: [] },
+      { nombre: "Química", codigo: "NUT-112", requisitos: [] },
+      { nombre: "Biología Celular y Molecular", codigo: "NUT-113", requisitos: [] },
+      { nombre: "Matemáticas Biomédicas", codigo: "NUT-114", requisitos: [] },
+      { nombre: "Introducción a la Actividad Profesional", codigo: "NUT-115", requisitos: [] },
+      { nombre: "Búsqueda de Sistematización de Información Científica y uso de TICS", codigo: "NUT-116", requisitos: [] }
+    ]},
+    { numero: 2, ramos: [
+      { nombre: "Fisiología", codigo: "NUT-121", requisitos: ["NUT-111"] },
+      { nombre: "Bioquímica", codigo: "NUT-122", requisitos: ["NUT-112", "NUT-113"] },
+      { nombre: "Microbiología y Parasitología", codigo: "NUT-123", requisitos: ["NUT-113"] },
+      { nombre: "Bromatología y Tecnología de los Alimentos", codigo: "NUT-124", requisitos: ["NUT-112"] },
+      { nombre: "Fundamentos de la Alimentación", codigo: "NUT-125", requisitos: [] },
+      { nombre: "Inglés I", codigo: "IFG-100", requisitos: [] }
+    ]},
+    { numero: 3, ramos: [
+      { nombre: "Evaluación del Estado Nutricional en el Ciclo Vital", codigo: "NUT-211", requisitos: ["NUT-121"] },
+      { nombre: "Nutrición Básica", codigo: "NUT-212", requisitos: ["NUT-122"] },
+      { nombre: "Técnicas Dietéticas", codigo: "NUT-213", requisitos: ["NUT-123", "NUT-124"] },
+      { nombre: "Inocuidad Alimentaria", codigo: "NUT-214", requisitos: ["NUT-123"] },
+      { nombre: "Salud Pública y Políticas Alimentario-Nutricionales I", codigo: "NUT-215", requisitos: ["NUT-115"] },
+      { nombre: "Inglés II", codigo: "IFG-200", requisitos: ["IFG-100"] }
+    ]},
+    { numero: 4, ramos: [
+      { nombre: "Dietética del Ciclo Vital", codigo: "NUT-221", requisitos: ["NUT-211", "NUT-212"] },
+      { nombre: "Fisiopatología y Farmacología", codigo: "NUT-222", requisitos: ["NUT-211"] },
+      { nombre: "Gastronomía", codigo: "NUT-223", requisitos: ["NUT-213", "NUT-214"] },
+      { nombre: "Aseguramiento de la Calidad en Alimentación y Nutrición", codigo: "NUT-224", requisitos: ["NUT-213", "NUT-214"] },
+      { nombre: "Salud Pública y Políticas Alimentario-Nutricionales II", codigo: "NUT-225", requisitos: ["NUT-215"] },
+      { nombre: "Introducción a la Fe", codigo: "MFG-114", requisitos: [] }
+    ]},
+    { numero: 5, ramos: [
+      { nombre: "Dietoterapia del Adulto y Adulto Mayor I", codigo: "NUT-311", requisitos: ["NUT-221", "NUT-222"] },
+      { nombre: "Psicología del Comportamiento Alimentario en el Ciclo Vital", codigo: "NUT-312", requisitos: ["NUT-221"] },
+      { nombre: "Bioestadística Aplicada", codigo: "NUT-313", requisitos: ["NUT-225"] },
+      { nombre: "Planificación de SAN", codigo: "NUT-314", requisitos: ["NUT-223", "NUT-224"] },
+      { nombre: "Programas de APS", codigo: "NUT-315", requisitos: ["NUT-225"] },
+      { nombre: "Ética Cristiana", codigo: "MFG-216", requisitos: [] }
+    ]},
+    { numero: 6, ramos: [
+      { nombre: "Dietoterapia del Adulto y Adulto Mayor II", codigo: "NUT-321", requisitos: ["NUT-311"] },
+      { nombre: "Ética Profesional y Bioética", codigo: "NUT-322", requisitos: [] },
+      { nombre: "Epidemiología", codigo: "NUT-323", requisitos: ["NUT-313"] },
+      { nombre: "Administración y Gestión en SAN I", codigo: "NUT-324", requisitos: ["NUT-314"] },
+      { nombre: "Salud Familiar", codigo: "NUT-325", requisitos: ["NUT-315"] },
+      { nombre: "Marketing y Educación en Salud y Nutrición", codigo: "NUT-326", requisitos: ["NUT-311", "NUT-312"] },
+      { nombre: "Certificación I", codigo: "CFG-1", requisitos: [] }
+    ]},
+    { numero: 7, ramos: [
+      { nombre: "Dietoterapia Infantojuvenil I", codigo: "NUT-411", requisitos: ["NUT-321"] },
+      { nombre: "Proyecto de Investigación I", codigo: "NUT-412", requisitos: ["NUT-311", "NUT-323", "NUT-324"] },
+      { nombre: "Administración y Gestión en SAN II", codigo: "NUT-413", requisitos: ["NUT-324"] },
+      { nombre: "Nutrición Comunitaria", codigo: "NUT-414", requisitos: ["NUT-325"] },
+      { nombre: "Certificación II", codigo: "CFG-2", requisitos: ["CFG-1"] }
+    ]},
+    { numero: 8, ramos: [
+      { nombre: "Dietoterapia Infantojuvenil II", codigo: "NUT-421", requisitos: ["NUT-411"] },
+      { nombre: "Nutrición Deportiva", codigo: "NUT-422", requisitos: ["NUT-411"] },
+      { nombre: "Proyecto de Investigación II", codigo: "NUT-423", requisitos: ["NUT-412"] },
+      { nombre: "Nutrición Integrada Profesional", codigo: "NUT-424", requisitos: ["NUT-411", "NUT-413", "NUT-414"] },
+      { nombre: "Certificación III", codigo: "CFG-3", requisitos: ["CFG-2"] }
+    ]},
+    { numero: 9, ramos: [
+      { nombre: "Práctica Profesional Gestión Servicios de Alimentación", codigo: "NUT-511", requisitos: ["NUT-421", "NUT-422", "NUT-423", "NUT-424", "CFG-3"] },
+      { nombre: "Práctica Profesional Nutrición Clínica", codigo: "NUT-512", requisitos: ["NUT-421", "NUT-422", "NUT-423", "NUT-424", "CFG-3"] },
+      { nombre: "Electivo", codigo: "NUT-513", requisitos: ["NUT-421", "NUT-422", "NUT-423", "NUT-424", "CFG-3"] }
+    ]},
+    { numero: 10, ramos: [
+      { nombre: "Práctica Profesional APS", codigo: "NUT-520", requisitos: ["NUT-421", "NUT-422", "NUT-423", "NUT-424", "CFG-3"] },
+      { nombre: "Práctica Profesional en Establecimientos Educacionales", codigo: "NUT-521", requisitos: ["NUT-421", "NUT-422", "NUT-423", "NUT-424", "CFG-3"] },
+      { nombre: "Electivo II", codigo: "NUT-522", requisitos: [] },
+      { nombre: "Electivo III", codigo: "NUT-523", requisitos: [] }
+    ]}
+  ];
+
+  const ramosMap = new Map();
+
+  semestres.forEach(sem => {
+    const col = document.createElement("div");
+    col.className = "semestre";
+    col.innerHTML = `<h3>Semestre ${sem.numero}</h3>`;
+    
+    sem.ramos.forEach(ramo => {
+      const div = document.createElement("div");
+      div.className = "ramo";
+      div.innerHTML = `<strong>${ramo.nombre}</strong><br><span class="codigo">${ramo.codigo}</span>`;
+      div.dataset.codigo = ramo.codigo;
+      div.dataset.requisitos = JSON.stringify(ramo.requisitos);
+      ramosMap.set(ramo.codigo, div);
+      col.appendChild(div);
+
+      div.addEventListener("dblclick", () => {
+        tacharRamoYDependientes(ramo.codigo);
+      });
+    });
+
+    malla.appendChild(col);
+  });
+
+  function tacharRamoYDependientes(codigoBase) {
+    const visitados = new Set();
+
+    function tachar(cod) {
+      const limpio = cod.trim().toUpperCase();
+      if (visitados.has(limpio)) return;
+      visitados.add(limpio);
+
+      const div = ramosMap.get(limpio);
+      if (!div) return;
+
+      div.classList.add("tachado");
+
+      for (const [otroCod, otroDiv] of ramosMap.entries()) {
+        const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
+        if (reqs.includes(limpio)) {
+          tachar(otroCod);
+        }
+      }
+    }
+
+    function destachar(cod) {
+      const limpio = cod.trim().toUpperCase();
+      if (visitados.has(limpio)) return;
+      visitados.add(limpio);
+
+      const div = ramosMap.get(limpio);
+      if (!div) return;
+
+      div.classList.remove("tachado");
+
+      for (const [otroCod, otroDiv] of ramosMap.entries()) {
+        const reqs = JSON.parse(otroDiv.dataset.requisitos).map(r => r.trim().toUpperCase());
+
+        const todosReqsDestachados = reqs.every(req => {
+          const reqDiv = ramosMap.get(req);
+          return reqDiv && !reqDiv.classList.contains("tachado");
+        });
+
+        if (reqs.includes(limpio) && todosReqsDestachados) {
+          destachar(otroCod);
+        }
+      }
+    }
+
+    const divBase = ramosMap.get(codigoBase);
+    if (divBase.classList.contains("tachado")) {
+      destachar(codigoBase);
+    } else {
+      tachar(codigoBase);
+    }
+  }
+
+  btnReset.addEventListener("click", () => {
+    for (const div of ramosMap.values()) {
+      div.classList.remove("tachado");
+    }
+  });
+});
+</script>
+
 </body>
 </html>
+
