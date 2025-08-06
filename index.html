@@ -6,11 +6,11 @@
 <title>Malla Curricular Interactiva</title>
 <style>
   body {
-  background-color: #4B1C71;
-  font-family: 'Montserrat', sans-serif;
-  margin: 0;
-  padding: 50px 20px 20px 20px;
-  color: #7F4CA5;
+    background-color: #4B1C71;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 50px 20px 20px 20px;
+    color: #7F4CA5;
   }
   #btnReset {
     position: fixed;
@@ -37,50 +37,50 @@
     overflow-x: auto;
   }
   
-.semestre {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  min-width: 150px; 
-  background-color: #B57EDC;
-  border-radius: 12px;
-  padding: 12px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  flex-shrink: 0;
-}
+  .semestre {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 140px; /* ancho fijo para todas las islas */
+    background-color: #B57EDC;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+  }
 
-.semestre h3 {
-  text-align: center;
-  margin-bottom: 10px;
-  color: #FFFFFF; 
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 700; 
-  font-size: 1.2em;
-}
+  .semestre h3 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #FFFFFF; 
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; 
+    font-size: 1.2em;
+  }
 
-.ramo {
-  background-color: #DBB6EE;
-  padding: 12px 14px;
-  border-radius: 12px;
-  box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
-  cursor: pointer;
-  text-align: center
-  user-select: none;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-weight: 600;
-  color: #7F4CA5;
-  
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: normal;
+  .ramo {
+    background-color: #DBB6EE;
+    padding: 10px 8px;
+    border-radius: 12px;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 600;
+    color: #7F4CA5;
 
-.ramo:hover {
-  background-color: #c7a9e9;
-}
-
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-word;
+  }
+  .ramo:hover {
+    background-color: #c7a9e9;
+  }
 
   .codigo {
     font-size: 0.85em;
@@ -88,7 +88,9 @@
     display: block;
     margin-top: 4px;
     font-weight: 500;
+    word-break: break-word;
   }
+
   .ramo.tachado {
     text-decoration: line-through;
     color: #aaa;
@@ -270,4 +272,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </body>
 </html>
-
