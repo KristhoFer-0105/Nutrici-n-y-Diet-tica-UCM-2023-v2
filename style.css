@@ -1,41 +1,41 @@
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap');
 
-  body {
-    background-color: #4B1C71;
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 50px 20px 20px 20px;
-    color: #7F4CA5;
-  }
+body {
+  background-color: #4B1C71;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 50px 20px 20px 20px;
+  color: #7F4CA5;
+}
 
-  #btnReset {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 8px 14px;
-    background-color: #7b47aa;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    z-index: 1000;
-    transition: background-color 0.3s ease;
-  }
+#btnReset {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 8px 14px;
+  background-color: #7b47aa;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+  transition: background-color 0.3s ease;
+}
 
-  #btnReset:hover {
-    background-color: #6a3b94;
-  }
+#btnReset:hover {
+  background-color: #6a3b94;
+}
 
-  #malla {
+#malla {
   display: flex;
   gap: 20px;
   overflow-x: auto;
   padding: 20px;
 }
 
- .semestre {
+.semestre {
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -47,46 +47,63 @@
   flex-shrink: 0;
 }
 
-  .semestre h3 {
-    text-align: center;
-    margin-bottom: 10px;
-    color: #4B1C71;
-    font-weight: 700;
-  }
+.semestre h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
 
-  .ramo {
-    background-color: #DBB6EE;
-    padding: 12px 14px;
-    border-radius: 12px;
-    box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-weight: 600;
-    color: #7F4CA5;
-  }
+.ramo {
+  background-color: #DBB6EE;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  color: #7F4CA5;
+  word-break: break-word;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .ramo:hover {
-    background-color: #cfa4e0;
-  }
+.ramo:hover {
+  background-color: #cfa4e0;
+}
 
-  .codigo {
-    font-size: 0.85em;
-    color: #4B1C71;
-    display: block;
-    margin-top: 4px;
-    font-weight: 500;
-  }
+.codigo {
+  font-size: 0.85em;
+  color: #4B1C71;
+  display: block;
+  margin-top: 4px;
+  font-weight: 500;
+}
 
-  .ramo.tachado {
-    text-decoration: line-through;
-    color: #aaa;
-    background-color: #b0a3c8;
-  }
+h1 {
+  text-align: center;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  color: #7F4CA5;
+}
 
-  h1 {
-    text-align: center;
-    font-weight: 700;
-    font-family: 'Montserrat', sans-serif;
-    color: #7F4CA5;
-  }
+.ramo.resaltado {
+  background-color: #4B1C71;
+  color: #FFF0FF;
+}
+
+.ramo.tachado {
+  background-color: #FFF0FF;
+  color: #4B1C71;
+  text-decoration: line-through;
+  opacity: 1;
+}
+
+.ramo .codigo {
+  color: inherit;
+}
