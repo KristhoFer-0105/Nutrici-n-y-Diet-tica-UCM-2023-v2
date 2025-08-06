@@ -6,17 +6,18 @@
 <title>Malla Curricular Interactiva</title>
 <style>
   body {
-    background-color: #d6b8f0; /* morado claro */
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 50px 20px 20px 20px;
+  background-color: #4B1C71;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 50px 20px 20px 20px;
+  color: #7F4CA5;
   }
   #btnReset {
     position: fixed;
     top: 20px;
     right: 20px;
     padding: 8px 14px;
-    background-color: #7b47aa; /* morado oscuro */
+    background-color: #7b47aa; 
     color: white;
     border: none;
     border-radius: 6px;
@@ -35,30 +36,40 @@
     gap: 20px;
     overflow-x: auto;
   }
-  .semestre {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    min-width: 180px;
-  }
-  .semestre h3 {
-    text-align: center;
-    margin-bottom: 10px;
-    color: #4b2a7f;
-  }
-  .ramo {
-    background-color: #eadcff;
-    padding: 12px 14px;
-    border-radius: 12px;
-    box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-weight: 600;
-  }
-  .ramo:hover {
-    background-color: #c7a9e9;
-  }
+  
+ .semestre {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-width: 180px;
+  background-color: #B57EDC;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.ramo {
+  background-color: #DBB6EE;
+  padding: 12px 14px;
+  border-radius: 12px;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  color: #7F4CA5;
+
+.ramo:hover {
+  background-color: #c7a9e9;
+}
+
+.semestre h3 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #4B1C71; 
+}
+
   .codigo {
     font-size: 0.85em;
     color: #8e7ab7;
