@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ]}
   ];
 
-  const ramosMap = new Map();
+ const ramosMap = new Map();
 
   semestres.forEach(sem => {
     const col = document.createElement("div");
@@ -96,67 +96,104 @@ document.addEventListener("DOMContentLoaded", () => {
       col.appendChild(div);
 
       div.addEventListener("click", () => {
-        if (!div.classList.contains("resaltado") && !div.classList.contains("tachado")) {
-          div.classList.add("resaltado");
-        } else if (div.classList.contains("resaltado")) {
-          div.classList.remove("resaltado");
-          tacharRamoYRequisitos(ramo.codigo);
-        } else {
-          destacharRamoYRequisitos(ramo.codigo);
-        }
+        manejarClickRamo(ramo.codigo);
       });
     });
 
     malla.appendChild(col);
   });
 
-  function tacharRamoYRequisitos(codigoBase) {
+  // Estado de click: 0 = normal, 1 = resaltado, 2 = tachado (ciclo)
+  const estados = new Map();
+
+  function manejarClickRamo(codigo) {
+    const div = ramosMap.get(codigo);
+    if (!div) return;
+
+    const estadoActual = estados.get(codigo) || 0;
+
+    if (estadoActual === 0) {
+      // Poner resaltado
+      div.classList.add("resaltado");
+      div.classList.remove("tachado");
+      estados.set(codigo, 1);
+    } else if (estadoActual === 1) {
+      // Poner tachado + tachar todos los requisitos (padres)
+      div.classList.remove("resaltado");
+      tacharConRequisitos(codigo);
+      estados.set(codigo, 2);
+    } else {
+      // Volver a normal
+      destacharRamo(codigo);
+      estados.set(codigo, 0);
+    }
+  }
+
+  // Función para tachar ramo y todos sus requisitos (padres) recursivamente
+  function tacharConRequisitos(codigo) {
     const visitados = new Set();
 
-    function tacharHaciaArriba(cod) {
-      const limpio = cod.trim().toUpperCase();
-      if (visitados.has(limpio)) return;
-      visitados.add(limpio);
+    function tacharRec(cod) {
+      if (visitados.has(cod)) return;
+      visitados.add(cod);
 
-      const div = ramosMap.get(limpio);
+      const div = ramosMap.get(cod);
       if (!div) return;
 
       div.classList.add("tachado");
       div.classList.remove("resaltado");
+      estados.set(cod, 2);
 
-      // Recorrer sus requisitos para tacharlos también (padres)
-      const requisitos = JSON.parse(div.dataset.requisitos);
-      requisitos.forEach(ramoReq => tacharHaciaArriba(ramoReq));
+      // Tachamos todos sus requisitos (padres)
+      const reqs = JSON.parse(div.dataset.requisitos);
+      reqs.forEach(ramoReq => {
+        tacharRec(ramoReq);
+      });
     }
 
-    tacharHaciaArriba(codigoBase);
+    tacharRec(codigo);
   }
 
-  function destacharRamoYRequisitos(codigoBase) {
+  // Función para destachar ramo y todos los que dependen si se cumplen requisitos
+  function destacharRamo(codigoBase) {
     const visitados = new Set();
 
-    function destacharHaciaArriba(cod) {
-      const limpio = cod.trim().toUpperCase();
-      if (visitados.has(limpio)) return;
-      visitados.add(limpio);
+    function destacharRec(cod) {
+      if (visitados.has(cod)) return;
+      visitados.add(cod);
 
-      const div = ramosMap.get(limpio);
+      const div = ramosMap.get(cod);
       if (!div) return;
 
       div.classList.remove("tachado");
       div.classList.remove("resaltado");
+      estados.set(cod, 0);
 
-      const requisitos = JSON.parse(div.dataset.requisitos);
-      requisitos.forEach(ramoReq => destacharHaciaArriba(ramoReq));
+      // Buscamos los ramos que dependen de este (hijos)
+      for (const [otroCod, otroDiv] of ramosMap.entries()) {
+        const reqs = JSON.parse(otroDiv.dataset.requisitos);
+
+        // Si el ramo depende de cod y todos sus requisitos están destachados, destachamos
+        if (reqs.includes(cod)) {
+          const todosReqsDestachados = reqs.every(req => {
+            const reqDiv = ramosMap.get(req);
+            return reqDiv && !reqDiv.classList.contains("tachado");
+          });
+
+          if (todosReqsDestachados) {
+            destacharRec(otroCod);
+          }
+        }
+      }
     }
 
-    destacharHaciaArriba(codigoBase);
+    destacharRec(codigoBase);
   }
 
   btnReset.addEventListener("click", () => {
     for (const div of ramosMap.values()) {
-      div.classList.remove("tachado");
-      div.classList.remove("resaltado");
+      div.classList.remove("tachado", "resaltado");
     }
+    estados.clear();
   });
 });
