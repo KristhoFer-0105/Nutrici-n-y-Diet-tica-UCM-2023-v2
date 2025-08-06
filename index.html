@@ -83,40 +83,39 @@
     font-size: 1.2em;
   }
 
-  .ramo {
-    background-color: #DBB6EE;
-    padding: 10px 8px;
-    border-radius: 12px;
-    box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
-    cursor: pointer;
-    text-align: center;
-    user-select: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    font-weight: 600;
-    color: #7F4CA5;
-    font-size: 0.85rem; /* letra un poco más grande que antes */
+.ramo {
+  background-color: #DBB6EE;
+  padding: 10px 8px;
+  border-radius: 12px;
+  box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  color: #7F4CA5;
+  font-size: 0.85rem;
 
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-word;
-    min-height: 70px; /* altura mínima mayor para más texto visible */
-  }
-  .ramo:hover {
-    background-color: #c7a9e9;
-  }
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  text-align: center;
 
-  .codigo {
-    font-size: 0.75rem;
-    color: #8e7ab7;
-    display: block;
-    margin-top: 6px;
-    font-weight: 500;
-    word-break: break-word;
-  }
+  word-break: break-word;
+  min-height: 70px;
+  max-width: 140px;
+  white-space: normal;
+}
+
+.ramo strong {
+  margin-bottom: 6px;
+}
+
+.codigo {
+  font-size: 0.75rem;
+  color: #8e7ab7;
+  font-weight: 500;
+}
 
   .ramo.tachado {
     text-decoration: line-through;
