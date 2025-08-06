@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const malla = document.getElementById("malla");
-
+  const btnReset = document.getElementById("btnReset");
+  
   const semestres = [
     { numero: 1, ramos: [
       { nombre: "Anatomía e Histología", codigo: "NUT-111", requisitos: [] },
@@ -78,7 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ]}
   ];
 
-   const ramosMap = new Map();
+  const ramosMap = new Map();
 
   semestres.forEach(sem => {
     const col = document.createElement("div");
@@ -95,33 +96,67 @@ document.addEventListener("DOMContentLoaded", () => {
       col.appendChild(div);
 
       div.addEventListener("click", () => {
-        toggleEstado(div);
+        if (!div.classList.contains("resaltado") && !div.classList.contains("tachado")) {
+          div.classList.add("resaltado");
+        } else if (div.classList.contains("resaltado")) {
+          div.classList.remove("resaltado");
+          tacharRamoYRequisitos(ramo.codigo);
+        } else {
+          destacharRamoYRequisitos(ramo.codigo);
+        }
       });
     });
 
     malla.appendChild(col);
   });
 
-  function toggleEstado(div) {
-    if (!div.classList.contains("resaltado") && !div.classList.contains("tachado")) {
-      div.classList.add("resaltado");
-    } else if (div.classList.contains("resaltado")) {
-      div.classList.remove("resaltado");
+  function tacharRamoYRequisitos(codigoBase) {
+    const visitados = new Set();
+
+    function tacharHaciaArriba(cod) {
+      const limpio = cod.trim().toUpperCase();
+      if (visitados.has(limpio)) return;
+      visitados.add(limpio);
+
+      const div = ramosMap.get(limpio);
+      if (!div) return;
+
       div.classList.add("tachado");
-    } else if (div.classList.contains("tachado")) {
-      div.classList.remove("tachado");
+      div.classList.remove("resaltado");
+
+      // Recorrer sus requisitos para tacharlos también (padres)
+      const requisitos = JSON.parse(div.dataset.requisitos);
+      requisitos.forEach(ramoReq => tacharHaciaArriba(ramoReq));
     }
+
+    tacharHaciaArriba(codigoBase);
   }
 
-  // Botón Reset
-  const btnReset = document.createElement("button");
-  btnReset.id = "btnReset";
-  btnReset.textContent = "Resetear Malla";
-  document.body.appendChild(btnReset);
+  function destacharRamoYRequisitos(codigoBase) {
+    const visitados = new Set();
+
+    function destacharHaciaArriba(cod) {
+      const limpio = cod.trim().toUpperCase();
+      if (visitados.has(limpio)) return;
+      visitados.add(limpio);
+
+      const div = ramosMap.get(limpio);
+      if (!div) return;
+
+      div.classList.remove("tachado");
+      div.classList.remove("resaltado");
+
+      const requisitos = JSON.parse(div.dataset.requisitos);
+      requisitos.forEach(ramoReq => destacharHaciaArriba(ramoReq));
+    }
+
+    destacharHaciaArriba(codigoBase);
+  }
 
   btnReset.addEventListener("click", () => {
     for (const div of ramosMap.values()) {
-      div.classList.remove("resaltado", "tachado");
+      div.classList.remove("tachado");
+      div.classList.remove("resaltado");
     }
   });
 });
